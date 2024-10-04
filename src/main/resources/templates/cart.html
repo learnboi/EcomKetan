@@ -1,53 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-    <link rel="stylesheet" href="/styles.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cart</title>
 </head>
 <body>
-<div class="container">
-    <h1>Your Shopping Cart</h1>
-    <table>
-        <thead>
+<h1>
+    Hello, <span th:text="${user.name}"> </span> no items in cart
+</h1>
+<form action="">
+    <table border="2px">
         <tr>
-            <th>Product Image</th>
-            <th>Product Name</th>
+            <th>Id</th>
+            <th>Name</th>
             <th>Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-            <th>Actions</th>
+            <th>Description</th>
         </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${cart}">
-            <td><img th:src="${item.product.image}" alt="Product Image" class="product-image"></td>
-            <td th:text="${item.product.name}">Product Name</td>
-            <td>₹<span th:text="${item.product.price}">0.00</span></td>
-            <td>
-                <form th:action="@{/cart/update/{id}/{action}(id=${item.product.id}, action='decrease')}" method="post">
-                    <button type="submit">-</button>
-                </form>
-                <span th:text="${item.quantity}">1</span>
-                <form th:action="@{/cart/update/{id}/{action}(id=${item.product.id}, action='increase')}" method="post">
-                    <button type="submit">+</button>
-                </form>
-            </td>
-            <td>₹<span th:text="${item.totalPrice}">0.00</span></td>
-            <td>
-                <form th:action="@{/cart/remove/{id}(id=${item.product.id})}" method="post">
-                    <button type="submit">Remove</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
     </table>
-
-    <div class="total">
-        <span>Total: ₹<span th:text="${total}">0.00</span></span>
-    </div>
-    <a href="#" class="checkout-btn">Proceed to Checkout</a>
-</div>
+</form>
 </body>
 </html>
