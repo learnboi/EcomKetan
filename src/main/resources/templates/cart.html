@@ -10,6 +10,7 @@
 <h1>
     Hello, <span th:text="${user.name}"> </span> no items in cart
 </h1>
+<h1>Products in Cart</h1>
 <form action="">
     <table border="2px">
         <tr>
@@ -17,6 +18,12 @@
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
+        </tr>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.description}"></td>
         </tr>
     </table>
 </form>

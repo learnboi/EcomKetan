@@ -1,8 +1,11 @@
 package com.ketanecom.ecomweb.Controller;
 
 import com.ketanecom.ecomweb.Dto.UserDto;
+import com.ketanecom.ecomweb.Model.Product;
 import com.ketanecom.ecomweb.Model.User;
+import com.ketanecom.ecomweb.Repository.ProductRepository;
 import com.ketanecom.ecomweb.Repository.UserRepository;
+import com.ketanecom.ecomweb.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class LoginController {
+    @Autowired
+    ProductRepository productRepository;
 
     private String emailtemp;
 
@@ -56,7 +62,18 @@ public class LoginController {
         }
     }
 
-    @RequestMapping("cart")
+    @Autowired
+    ProductService productService;
+
+
+    @GetMapping("item1")
+    public String getProduct() {
+        Product product = new Product(2,"Iphone 10", "This is the iphone launched in 2014", 10000);
+        productRepository.save(product);
+        return "index";
+    }
+
+    @GetMapping("cart")
     public String cart(Model model) {
         User user = UserRepository.findByEmail(emailtemp); // Fetch the logged-in user by email
         if (user == null) {
@@ -64,9 +81,11 @@ public class LoginController {
             user.setName("Guest");
         }
         model.addAttribute("user", user);
-        System.out.println(emailtemp);
-        System.out.println("User saved");
-        return "cart"; // Returns the cart.html view
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
+        return "cart";
     }
+
+
 
 }
